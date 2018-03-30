@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Train Project</title>
+
+	<!-- Bootstrap Link-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!--Firebase Reference-->
+		<script></script>
+
+	<!--Moment JS-->
+		<script src="https://cdn.jsdeliver.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <!-- CSS Link -->
+    	<link rel="stylesheet" type="text/css" href="./assets/style.css">
+
+</head>
+<body>
+
+	<!--Container-->
+	<div class="container">
+
+		<!--header-->
+		<div class="jumbotron">
+			<h1>Test</h1>
+			<p>This is a test project</p>
+		</div>
+
+		<!--main table-->
+		<div class="panel panel-info">
+			<div class="panel-heading">Train Schedule</div>
+	      		<div class="panel-body">
+	      			<table class="table table-hover" id="train-table">
+						<thead>
+							<tr>
+								<th>Train Name</th>
+								<th>Destination</th>
+								<th>Frequency (min)</th>
+								<th>Next Arrival</th>
+								<th>Minutes Away</th>
+							</tr>
+						</thead>
+
+				<!--append train info-->
+						<tbody></tbody>
+
+	      			</table>
+	      		</div>
+		</div>
+
+		<!-- train entry form-->
+		<div class="panel panel-info">
+			<div class="panel-heading">Enter New Train</div>
+				<div class="panel-body">
+					<form >
+						<div class="form-group">
+							<label for="">Train Name</label>
+							<input type="text" id="train-name" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">Destination</label>
+							<input type="text" id="desination" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">First Train Time (HH:mm - military time)</label>
+							<input type="text" id="train-time" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="">Frequency (min)</label>
+							<input type="text" id="frequency" class="form-control">
+						</div>
+
+						 <button type="submit" id="add-train" class="btn btn-default">Add Train</button>
+
+					</form>
+				</div>
+		</div>
+	</div>
+
+
+<!--jQuery Link-->
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+
+<!--Javascript-->
+
+<script> $("#add-train").on("click", function(e) {
+	event.preventDefault();
+
+
+	let tName = $("#train-name").val().trim()
+	console.log(tName)
+	let dest = $("#desination").val().trim()
+	console.log(dest)
+	let tTime = $("#train-time").val().trim()
+	console.log(tTime)
+	let freq = $("#frequency").val().trim()
+	console.log(freq)
+
+	//create object
+	let newTrain = {
+		Train Name: tName,
+		Destination: dest,
+		Train Time: tTime,
+		Frequency: freq,
+	}
+
+	//push object to DB
+	database.ref().push(newTrain);
+
+
+	//alert??????
+	//create pop html to show successful addition
+	
+
+	//clear for next train
+	$("#train-name").val("");
+	$("#desination").val("");
+	$("#train-time").val("");
+	$("frequency").val("");
+})
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
