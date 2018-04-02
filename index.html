@@ -8,13 +8,13 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 	<!--Firebase Reference-->
-		<script></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 
 	<!--Moment JS-->
 		<script src="https://cdn.jsdeliver.net/momentjs/2.12.0/moment.min.js"></script>
 
     <!-- CSS Link -->
-    	<link rel="stylesheet" type="text/css" href="./assets/style.css">
+    	<!--<link rel="stylesheet" type="text/css" href="./assets/style.css">-->
 
 </head>
 <body>
@@ -24,8 +24,8 @@
 
 		<!--header-->
 		<div class="jumbotron">
-			<h1>Test</h1>
-			<p>This is a test project</p>
+			<h1>Stavo's Trains</h1>
+			<p>A few trains you probably don't want to be on</p>
 		</div>
 
 		<!--main table-->
@@ -88,7 +88,23 @@
 
 <!--Javascript-->
 
-<script> $("#add-train").on("click", function(e) {
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB_cInpC-v9Po2gxM19_bSK_m5L72rHpeI",
+    authDomain: "christrainproject.firebaseapp.com",
+    databaseURL: "https://christrainproject.firebaseio.com",
+    projectId: "christrainproject",
+    storageBucket: "",
+    messagingSenderId: "568266336595"
+  };
+  firebase.initializeApp(config);
+
+  let database = firebase.database();
+</script>
+
+<script>
+	$("#add-train").on("click", function(e) {
 	event.preventDefault();
 
 
@@ -103,9 +119,9 @@
 
 	//create object
 	let newTrain = {
-		Train Name: tName,
+		TrainName: tName,
 		Destination: dest,
-		Train Time: tTime,
+		TrainTime: tTime,
 		Frequency: freq,
 	}
 
@@ -121,14 +137,46 @@
 	$("#train-name").val("");
 	$("#desination").val("");
 	$("#train-time").val("");
-	$("frequency").val("");
+	$("#frequency").val("");
 })
 
 
 
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+
+	console.log(childSnapshot.val())
+
+
+	let tName = childSnapshot.val().TrainName
+	console.log(tName)
+	let dest = childSnapshot.val().Destination
+	console.log(dest)
+	let tTime = childSnapshot.val().TrainTime
+	console.log(tTime)
+	let freq = childSnapshot.val().Frequency
+	console.log(freq)
+
+
+	//calculate train schedule
+	
+	let nextTrain = moment(tTime, 'HH:mm').add(freq, 'minutes').format('HH:mm');
+	
+	console.log(tTime)
+	console.log(nextTrain)
+
+	//calculate minutes away
+	//let minsAway = nexttrain
+
+
+	//display trains data into table
+	$("#train-table").append("<tr><td>" + tName + "</td><td>" + dest + "</td><td>" +
+  freq + "</td><td>" + nextTrain + "</td><td>");
+});
 
 
 
+
+	
 
 
 
